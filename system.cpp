@@ -9,6 +9,7 @@ System::System(QWidget *parent)
 
     timer = new QTimer(this);
     time = new QTime(0, 0);
+    ui->stackedWidget->setCurrentWidget(ui->page_2);
 
 }
 

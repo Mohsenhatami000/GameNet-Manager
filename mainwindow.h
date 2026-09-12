@@ -2,7 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-
+#include <QHBoxLayout>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -20,5 +20,7 @@ public:
 
 private:
     Ui::MainWindow *ui;
+    std::vector<QHBoxLayout*> horiz;
+
 };
 #endif // MAINWINDOW_H
