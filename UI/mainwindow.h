@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <QHBoxLayout>
+#include "../Logic/pricingmanager.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -21,6 +22,7 @@ public:
 private:
     Ui::MainWindow *ui;
     std::vector<QHBoxLayout*> horiz;
+    PricingManager *priceManager;
 
 };
 #endif // MAINWINDOW_H

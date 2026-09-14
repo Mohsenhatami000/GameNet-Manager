@@ -10,16 +10,26 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
+    priceManager = new PricingManager();
+
     QGridLayout* grid = new QGridLayout(ui->page);
+
+    priceManager->addPricingRule(PricingRule(Platform::PS4, 1, 45000));
+    priceManager->addPricingRule(PricingRule(Platform::PS4, 2, 80000));
+    priceManager->addPricingRule(PricingRule(Platform::PS4, 3, 120000));
+    priceManager->addPricingRule(PricingRule(Platform::PS4, 4, 160000));
 
     for (int row = 0; row < 2; row++) {
         for (int col = 0; col < 3; col++) {
             QVBoxLayout* vertical = new QVBoxLayout();
             grid->addLayout(vertical, row, col);
-            System* tmp = new System();
+            System* tmp = new System(Platform::PS4);
+            tmp->setPriceManager(priceManager);
             vertical->addWidget(tmp);
         }
     }
+
+
 }
 
 MainWindow::~MainWindow()

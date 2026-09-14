@@ -8,6 +8,7 @@
 #include <QElapsedTimer>
 #include "startsessiondialog.h"
 #include "../Logic/timer.h"
+#include "../Logic/pricingmanager.h"
 
 namespace Ui {
 class System;
@@ -18,8 +19,9 @@ class System : public QWidget
     Q_OBJECT
 
 public:
-    explicit System(QWidget *parent = nullptr);
+    explicit System(Platform platform, QWidget *parent = nullptr);
     ~System();
+    void setPriceManager(PricingManager *priceManager);
 
 private slots:
     void on_pushButton_start_session_clicked();
@@ -31,10 +33,13 @@ private slots:
     void zeroTimer();
 
 
+
 private:
     Ui::System *ui;
     StartSessionDialog *STsession;
     Timer timer;
+    PricingManager *priceManager;
+    Platform platform;
 };
 
 #endif // SYSTEM_H

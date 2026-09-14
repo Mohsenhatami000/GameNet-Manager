@@ -3,7 +3,7 @@
 
 #include <QDialog>
 #include <QTime>
-
+#include "../Logic/pricingmanager.h"
 
 namespace Ui {
 class StartSessionDialog;
@@ -17,6 +17,8 @@ public:
     explicit StartSessionDialog(QWidget *parent = nullptr);
     ~StartSessionDialog();
     QTime getTime() const;
+    void setPriceManager(PricingManager *priceManager);
+    void setPlatform(Platform platform);
 
 signals:
     void startBySetTimeRequested();
@@ -50,9 +52,15 @@ private slots:
 
     void on_timeEdit_time_userTimeChanged(const QTime &time);
 
+    void on_pushButton_calculate_clicked();
+
+    void on_pushButton_start2_clicked();
+
 private:
     Ui::StartSessionDialog *ui;
     QTime time;
+    PricingManager *priceManager;
+    Platform platform;
 };
 
 #endif // STARTSESSIONDIALOG_H

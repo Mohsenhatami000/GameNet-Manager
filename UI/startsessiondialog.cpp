@@ -102,3 +102,26 @@ QTime StartSessionDialog::getTime() const{
     return time;
 }
 
+void StartSessionDialog::setPriceManager(PricingManager *priceManager){
+    this->priceManager = priceManager;
+}
+
+void StartSessionDialog::setPlatform(Platform platform){
+    this->platform = platform;
+}
+
+void StartSessionDialog::on_pushButton_calculate_clicked()
+{
+
+    time = priceManager->getRule(platform, ui->spinBox_player_count2->value()).calculateTimeFromMoney(ui->lineEdit_price->displayText().toInt());
+    qDebug() << time << Qt::endl;
+    ui->label_show_time->setText(time.toString("hh:mm:ss"));
+}
+
+
+
+void StartSessionDialog::on_pushButton_start2_clicked()
+{
+    startBySetTimeRequested();
+}
+
