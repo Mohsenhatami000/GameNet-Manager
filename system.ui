@@ -136,24 +136,25 @@
         </layout>
        </item>
        <item>
-        <widget class="QLCDNumber" name="lcdNumber_timer">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
-           <horstretch>0</horstretch>
-           <verstretch>100</verstretch>
-          </sizepolicy>
-         </property>
+        <widget class="QLabel" name="label_Timer">
          <property name="minimumSize">
           <size>
            <width>120</width>
            <height>100</height>
           </size>
          </property>
-         <property name="sizeIncrement">
-          <size>
-           <width>0</width>
-           <height>10000</height>
-          </size>
+         <property name="font">
+          <font>
+           <family>MS UI Gothic</family>
+           <pointsize>48</pointsize>
+           <italic>false</italic>
+          </font>
+         </property>
+         <property name="text">
+          <string>00:00:00</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignmentFlag::AlignCenter</set>
          </property>
         </widget>
        </item>

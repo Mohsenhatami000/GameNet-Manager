@@ -2,6 +2,9 @@
 <ui version="4.0">
  <class>StartSessionDialog</class>
  <widget class="QDialog" name="StartSessionDialog">
+  <property name="windowModality">
+   <enum>Qt::WindowModality::WindowModal</enum>
+  </property>
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -12,6 +15,9 @@
   </property>
   <property name="windowTitle">
    <string>Dialog</string>
+  </property>
+  <property name="modal">
+   <bool>true</bool>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
@@ -87,6 +93,19 @@
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout_2">
          <item>
+          <spacer name="horizontalSpacer_9">
+           <property name="orientation">
+            <enum>Qt::Orientation::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
           <widget class="QLabel" name="label_time">
            <property name="font">
             <font>
@@ -105,7 +124,7 @@
           <widget class="QTimeEdit" name="timeEdit_time">
            <property name="font">
             <font>
-             <pointsize>14</pointsize>
+             <pointsize>10</pointsize>
             </font>
            </property>
            <property name="alignment">
@@ -122,6 +141,47 @@
             </time>
            </property>
           </widget>
+         </item>
+         <item>
+          <spacer name="horizontalSpacer_7">
+           <property name="orientation">
+            <enum>Qt::Orientation::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <widget class="QSpinBox" name="spinBox_player_count1">
+           <property name="font">
+            <font>
+             <pointsize>10</pointsize>
+            </font>
+           </property>
+           <property name="minimum">
+            <number>1</number>
+           </property>
+           <property name="maximum">
+            <number>4</number>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="horizontalSpacer_8">
+           <property name="orientation">
+            <enum>Qt::Orientation::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
          </item>
         </layout>
        </item>
@@ -268,10 +328,10 @@
           </spacer>
          </item>
          <item>
-          <widget class="QSpinBox" name="spinBox_player_count1">
+          <widget class="QSpinBox" name="spinBox_player_count2">
            <property name="font">
             <font>
-             <pointsize>12</pointsize>
+             <pointsize>10</pointsize>
             </font>
            </property>
            <property name="minimum">
@@ -397,10 +457,10 @@
           </spacer>
          </item>
          <item>
-          <widget class="QSpinBox" name="spinBox_player_count2">
+          <widget class="QSpinBox" name="spinBox_player_count3">
            <property name="font">
             <font>
-             <pointsize>12</pointsize>
+             <pointsize>10</pointsize>
             </font>
            </property>
            <property name="minimum">
@@ -456,6 +516,7 @@
        </item>
       </layout>
      </widget>
+     <widget class="QWidget" name="page_4"/>
     </widget>
    </item>
   </layout>
