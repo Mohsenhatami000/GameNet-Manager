@@ -7,6 +7,7 @@
 #include <QDeadlineTimer>
 #include <QElapsedTimer>
 #include "startsessiondialog.h"
+#include "../Logic/timer.h"
 
 namespace Ui {
 class System;
@@ -23,26 +24,17 @@ public:
 private slots:
     void on_pushButton_start_session_clicked();
     void startTimerBySetTime();
-    void countDownUpdateTime();
+    void UpdateTime(qint64 Miliseconds);
     void cancelDialog();
     void startFreeTime();
-    void freeTimeUpdateTime();
     void on_pushButton_stop_resume_clicked();
+    void zeroTimer();
+
 
 private:
     Ui::System *ui;
-    QTimer *timer;
-    QElapsedTimer elapsedTimer;
-    QDeadlineTimer *deadLine;
     StartSessionDialog *STsession;
-    bool is_running;
-    bool is_countDown;
-    qint64 remainingTime;
-    qint64 elapsedTimeBefore;
-
-
-
-
+    Timer timer;
 };
 
 #endif // SYSTEM_H
