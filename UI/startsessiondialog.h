@@ -14,7 +14,7 @@ class StartSessionDialog : public QDialog
     Q_OBJECT
 
 public:
-    explicit StartSessionDialog(QWidget *parent = nullptr);
+    explicit StartSessionDialog(QString Name, QWidget *parent = nullptr);
     ~StartSessionDialog();
     QTime getTime() const;
     void setPriceManager(PricingManager *priceManager);
@@ -69,6 +69,7 @@ private:
     PricingManager *priceManager;
     Platform platform;
     int playerCount;
+    QString Name;
 };
 
 #endif // STARTSESSIONDIALOG_H

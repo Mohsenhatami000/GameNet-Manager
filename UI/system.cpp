@@ -28,7 +28,7 @@ System::~System()
 
 void System::on_pushButton_start_session_clicked()
 {
-    STsession = new StartSessionDialog(this);
+    STsession = new StartSessionDialog(Name, this);
     STsession->setPriceManager(priceManager);
     STsession->setPlatform(platform);
     STsession->show();
@@ -68,7 +68,7 @@ void System::UpdateTime(qint64 Miliseconds){
         price = totalPrice - price;
     }
 
-    ui->textBrowser_price->setText("PlayedTime Price: " + QString::number(price));
+    ui->textBrowser_price->setText("PlayedTime Cost: " + QString::number(price));
     ui->textBrowser_price->setAlignment(Qt::AlignCenter);
 
     ui->label_Timer->setText(

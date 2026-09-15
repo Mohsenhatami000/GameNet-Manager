@@ -2,12 +2,14 @@
 #include "ui_startsessiondialog.h"
 
 
-StartSessionDialog::StartSessionDialog(QWidget *parent)
+StartSessionDialog::StartSessionDialog(QString Name, QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::StartSessionDialog)
 {
+    this->Name = Name;
     ui->setupUi(this);
     ui->stackedWidget->setCurrentWidget(ui->page_4);
+    ui->label_titr->setText(QString("Start Session - ") + Name);
     time.setHMS(1, 0, 0);
     playerCount = 1;
 }
