@@ -32,14 +32,15 @@ private slots:
     void on_pushButton_stop_resume_clicked();
     void zeroTimer();
 
-
-
 private:
     Ui::System *ui;
     StartSessionDialog *STsession;
     Timer timer;
     PricingManager *priceManager;
     Platform platform;
+    std::unordered_map<Platform, QString> PlatformToQString;
+    int playerCount;
 };
+
 
 #endif // SYSTEM_H

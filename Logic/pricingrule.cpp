@@ -21,7 +21,7 @@ QTime PricingRule::calculateTimeFromMoney(int money){
 }
 
 int PricingRule::calculateMoneyFromTime(QTime time){
-    int tmp = (time.hour() + (time.minute() / 60)) * price;
+    int tmp = (time.hour() + (time.minute() / 60.0) + (time.second() / 3600.0)) * price;
     return tmp;
 }
 

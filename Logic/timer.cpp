@@ -73,5 +73,8 @@ void Timer::onTimeout(){
     else{
         emit TimeChanged(elapsedTimer.elapsed() + elapsedTime);
     }
+}
 
+TimerMode Timer::getMode() const{
+    return mode;
 }

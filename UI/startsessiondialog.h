@@ -19,6 +19,7 @@ public:
     QTime getTime() const;
     void setPriceManager(PricingManager *priceManager);
     void setPlatform(Platform platform);
+    int getPlayerCount() const;
 
 signals:
     void startBySetTimeRequested();
@@ -56,11 +57,18 @@ private slots:
 
     void on_pushButton_start2_clicked();
 
+    void on_spinBox_player_count1_valueChanged(int arg1);
+
+    void on_spinBox_player_count2_valueChanged(int arg1);
+
+    void on_spinBox_player_count3_valueChanged(int arg1);
+
 private:
     Ui::StartSessionDialog *ui;
     QTime time;
     PricingManager *priceManager;
     Platform platform;
+    int playerCount;
 };
 
 #endif // STARTSESSIONDIALOG_H

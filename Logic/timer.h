@@ -36,6 +36,7 @@ public:
     void stop();
     void resume();
     bool getIsRunning() const;
+    TimerMode getMode() const;
 signals:
     void TimeChanged(qint64 Miliseconds);
     void zeroTimerRequested();

@@ -27,6 +27,7 @@ void System::on_pushButton_start_session_clicked()
     connect(STsession, &StartSessionDialog::startBySetTimeRequested, this, &System::startTimerBySetTime);
     connect(STsession, &StartSessionDialog::cancelRequested, this, &System::cancelDialog);
     connect(STsession, &StartSessionDialog::startFreeTimeRequested, this, &System::startFreeTime);
+    playerCount = 1;
 }
 
 
@@ -34,10 +35,13 @@ void System::startTimerBySetTime(){
 
     STsession->close();
     ui->stackedWidget->setCurrentWidget(ui->page_2);
+    playerCount = STsession->getPlayerCount();
+    ui->label_player_Count->setText(QString(QString::number(playerCount) + " Player(s)"));
     timer.setMode(TimerMode::countDown);
     timer.setDuration(STsession->getTime().msecsSinceStartOfDay());
     timer.start();
     connect(&timer, &Timer::TimeChanged, this, &System::UpdateTime);
+
 }
 
 
@@ -47,6 +51,17 @@ void System::UpdateTime(qint64 Miliseconds){
     int Hours = (TimeInMinute / 60);
     int Minutes = TimeInMinute % 60;
     int Seconds = (Miliseconds / 1000) % 60;
+    qint32 price;
+
+    price = priceManager->getRule(platform, playerCount).calculateMoneyFromTime(QTime(Hours, Minutes, Seconds));
+
+    if(timer.getMode() == TimerMode::countDown){
+        qint32 totalPrice = priceManager->getRule(platform, playerCount).calculateMoneyFromTime(STsession->getTime());
+        price = totalPrice - price;
+    }
+
+    ui->textBrowser_price->setText("PlayedTime Price: " + QString::number(price));
+    ui->textBrowser_price->setAlignment(Qt::AlignCenter);
 
     ui->label_Timer->setText(
         QString("%1:%2:%3")
@@ -78,6 +93,8 @@ void System::startFreeTime(){
     ui->stackedWidget->setCurrentWidget(ui->page_2);
     timer.setMode(TimerMode::countUp);
     timer.start();
+    playerCount = STsession->getPlayerCount();
+    ui->label_player_Count->setText(QString(QString::number(playerCount) + " Player(s)"));
     connect(&timer, &Timer::TimeChanged, this, &System::UpdateTime);
 }
 

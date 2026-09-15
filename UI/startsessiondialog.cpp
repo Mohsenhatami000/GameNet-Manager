@@ -9,6 +9,7 @@ StartSessionDialog::StartSessionDialog(QWidget *parent)
     ui->setupUi(this);
     ui->stackedWidget->setCurrentWidget(ui->page_4);
     time.setHMS(1, 0, 0);
+    playerCount = 1;
 }
 
 StartSessionDialog::~StartSessionDialog()
@@ -112,16 +113,30 @@ void StartSessionDialog::setPlatform(Platform platform){
 
 void StartSessionDialog::on_pushButton_calculate_clicked()
 {
-
     time = priceManager->getRule(platform, ui->spinBox_player_count2->value()).calculateTimeFromMoney(ui->lineEdit_price->displayText().toInt());
-    qDebug() << time << Qt::endl;
     ui->label_show_time->setText(time.toString("hh:mm:ss"));
 }
-
-
 
 void StartSessionDialog::on_pushButton_start2_clicked()
 {
     startBySetTimeRequested();
 }
 
+void StartSessionDialog::on_spinBox_player_count1_valueChanged(int arg1)
+{
+    playerCount = arg1;
+}
+
+int StartSessionDialog::getPlayerCount() const{
+    return playerCount;
+}
+void StartSessionDialog::on_spinBox_player_count2_valueChanged(int arg1)
+{
+    playerCount = arg1;
+}
+
+
+void StartSessionDialog::on_spinBox_player_count3_valueChanged(int arg1)
+{
+    playerCount = arg1;
+}
