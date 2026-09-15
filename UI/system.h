@@ -19,9 +19,11 @@ class System : public QWidget
     Q_OBJECT
 
 public:
-    explicit System(Platform platform, QWidget *parent = nullptr);
+    explicit System(Platform platform, std::unordered_map<Platform, QString> &PlatformToQString, QWidget *parent = nullptr);
     ~System();
     void setPriceManager(PricingManager *priceManager);
+    static int counter;
+    void setPlatformToString(std::unordered_map<Platform, QString> &PlatformToQString);
 
 private slots:
     void on_pushButton_start_session_clicked();
@@ -40,6 +42,8 @@ private:
     Platform platform;
     std::unordered_map<Platform, QString> PlatformToQString;
     int playerCount;
+    int id;
+    QString Name;
 };
 
 
