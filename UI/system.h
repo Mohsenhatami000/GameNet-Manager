@@ -25,6 +25,7 @@ public:
     static int counter;
     void setPlatformToString(std::unordered_map<Platform, QString> &PlatformToQString);
 
+
 private slots:
     void on_pushButton_start_session_clicked();
     void startTimerBySetTime();
@@ -33,6 +34,7 @@ private slots:
     void startFreeTime();
     void on_pushButton_stop_resume_clicked();
     void zeroTimer();
+
 
 private:
     Ui::System *ui;

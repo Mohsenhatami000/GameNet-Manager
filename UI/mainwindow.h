@@ -24,6 +24,5 @@ private:
     std::vector<QHBoxLayout*> horiz;
     PricingManager *priceManager;
 
-
 };
 #endif // MAINWINDOW_H

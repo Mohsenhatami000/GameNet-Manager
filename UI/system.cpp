@@ -2,6 +2,7 @@
 #include "ui_system.h"
 #include <QTime>
 
+
 System::System(Platform platform, std::unordered_map<Platform, QString> &PlatformToQString, QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::System)
@@ -119,4 +120,3 @@ void System::setPlatformToString(std::unordered_map<Platform, QString> &Platform
         this->PlatformToQString[i.first] = i.second;
     }
 }
-
