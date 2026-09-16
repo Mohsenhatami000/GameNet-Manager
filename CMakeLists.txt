@@ -39,6 +39,9 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         Logic/pricingrule.h Logic/pricingrule.cpp
         Logic/Platform.h
         Logic/pricingmanager.h Logic/pricingmanager.cpp
+        Logic/product.h Logic/product.cpp
+        Logic/productcatalog.h Logic/productcatalog.cpp
+        Logic/productitem.h Logic/productitem.cpp
     )
 
 else()

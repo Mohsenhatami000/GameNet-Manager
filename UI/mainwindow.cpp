@@ -35,6 +35,12 @@ MainWindow::MainWindow(QWidget *parent)
     priceManager->addPricingRule(PricingRule(Platform::PS4, 3, 120000));
     priceManager->addPricingRule(PricingRule(Platform::PS4, 4, 160000));
 
+    productCatalog = new ProductCatalog();
+    productCatalog->addProduct(Product("Cake", 35000));
+    productCatalog->addProduct(Product("Juice", 58000));
+    productCatalog->addProduct(Product("Biscuit", 55000));
+
+
     for (int row = 0; row < 2; row++) {
         for (int col = 0; col < 3; col++) {
             QVBoxLayout* vertical = new QVBoxLayout();
