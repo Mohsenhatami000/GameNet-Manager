@@ -11,6 +11,7 @@
 #include "../Logic/pricingmanager.h"
 #include "../Logic/productcatalog.h"
 #include "../Logic/productitem.h"
+#include "menudialog.h"
 #include "productsdialog.h"
 
 namespace Ui {
@@ -41,9 +42,12 @@ private slots:
     void zeroTimer();
     void on_pushButton_products_clicked();
     void cancelProductDialog();
+    void cancelMenu();
     void addProductToList(QString productName, int quantity);
     void updateProductBrowser();
 
+
+    void on_pushButton_menu_clicked();
 
 private:
     Ui::System *ui;
@@ -52,6 +56,7 @@ private:
     PricingManager *priceManager;
     ProductCatalog *productCatalog;
     ProductsDialog *productDialog;
+    MenuDialog *menuDialog;
     std::unordered_map<QString, ProductItem> ItemsList;
     Platform platform;
     std::unordered_map<Platform, QString> PlatformToQString;

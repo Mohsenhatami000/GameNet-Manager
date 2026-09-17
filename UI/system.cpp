@@ -11,6 +11,8 @@ System::System(Platform platform, std::unordered_map<Platform, QString> &Platfor
 {
     ui->setupUi(this);
     ui->stackedWidget->setCurrentWidget(ui->page);
+    menuDialog = new MenuDialog();
+    connect(menuDialog, &MenuDialog::cancelRequested, this, &System::cancelMenu);
     counter++;
     id = counter;
     setPlatformToString(PlatformToQString);
@@ -176,3 +178,13 @@ void System::addProductToList(QString productName, int quantity){
     updateProductBrowser();
     productDialog->close();
 }
+
+void System::on_pushButton_menu_clicked()
+{
+    menuDialog->show();
+}
+
+void System::cancelMenu(){
+    menuDialog->close();
+}
+
