@@ -4,6 +4,8 @@
 MenuDialog::MenuDialog(QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::MenuDialog)
+    , extendTimeDialog(nullptr)
+    , descriptionDialog(nullptr)
 {
     ui->setupUi(this);
 }
@@ -41,4 +43,16 @@ void MenuDialog::onExtendTime(QTime time){
     emit extendTimeRequested(time);
     delete extendTimeDialog;
 
+}
+void MenuDialog::on_pushButton_description_clicked()
+{
+    if(!descriptionDialog){
+        descriptionDialog = new DescriptionDialog(this);
+        connect(descriptionDialog, &DescriptionDialog::backToMainRequested, this, &MenuDialog::descriptionBackToMain);
+    }
+    descriptionDialog->show();
+}
+
+void MenuDialog::descriptionBackToMain(){
+    descriptionDialog->close();
 }
