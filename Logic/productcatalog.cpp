@@ -13,3 +13,8 @@ void ProductCatalog::removeProduct(QString name){
 Product ProductCatalog::getProduct(QString name) const{
     return productList.at(name);
 }
+
+const std::map<QString, Product>& ProductCatalog::getProductList() const{
+    return productList;
+}
+

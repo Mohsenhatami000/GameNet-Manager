@@ -9,9 +9,12 @@ class ProductItem
     int quantity;
 
 public:
-    ProductItem(Product &product, int quantity);
+    ProductItem() = default;
+    ProductItem(Product product, int quantity);
     Product getProduct() const;
     int getQuantity() const;
+    void operator+=(const ProductItem& item);
+
 };
 
 #endif // PRODUCTITEM_H

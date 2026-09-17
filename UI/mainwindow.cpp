@@ -4,6 +4,7 @@
 #include <QVBoxLayout>
 #include "system.h"
 #include <unordered_map>
+#include <QDebug>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -36,10 +37,9 @@ MainWindow::MainWindow(QWidget *parent)
     priceManager->addPricingRule(PricingRule(Platform::PS4, 4, 160000));
 
     productCatalog = new ProductCatalog();
-    productCatalog->addProduct(Product("Cake", 35000));
-    productCatalog->addProduct(Product("Juice", 58000));
-    productCatalog->addProduct(Product("Biscuit", 55000));
-
+    productCatalog->addProduct(Product(QString("Cake"), 35000));
+    productCatalog->addProduct(Product(QString("Juice"), 58000));
+    productCatalog->addProduct(Product(QString("Biscuit"), 55000));
 
     for (int row = 0; row < 2; row++) {
         for (int col = 0; col < 3; col++) {
@@ -50,6 +50,7 @@ MainWindow::MainWindow(QWidget *parent)
             tmp->setMinimumSize(300, 400);
 
             tmp->setPriceManager(priceManager);
+            tmp->setProductCatalog(productCatalog);
             vertical->addWidget(tmp);
         }
     }

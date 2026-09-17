@@ -1,7 +1,7 @@
 #include "system.h"
 #include "ui_system.h"
 #include <QTime>
-
+#include <QLocale>
 
 System::System(Platform platform, std::unordered_map<Platform, QString> &PlatformToQString, QWidget *parent)
     : QWidget(parent)
@@ -33,7 +33,7 @@ void System::on_pushButton_start_session_clicked()
     STsession->setPlatform(platform);
     STsession->show();
     connect(STsession, &StartSessionDialog::startBySetTimeRequested, this, &System::startTimerBySetTime);
-    connect(STsession, &StartSessionDialog::cancelRequested, this, &System::cancelDialog);
+    connect(STsession, &StartSessionDialog::cancelRequested, this, &System::cancelStartDialog);
     connect(STsession, &StartSessionDialog::startFreeTimeRequested, this, &System::startFreeTime);
     playerCount = 1;
 }
@@ -68,8 +68,8 @@ void System::UpdateTime(qint64 Miliseconds){
         price = totalPrice - price;
     }
 
-    ui->textBrowser_price->setText("PlayedTime Cost: " + QString::number(price));
-    ui->textBrowser_price->setAlignment(Qt::AlignCenter);
+    ui->label_price->setText('$' + QLocale(QLocale::English).toString(price));
+    ui->label_price->setAlignment(Qt::AlignCenter);
 
     ui->label_Timer->setText(
         QString("%1:%2:%3")
@@ -79,7 +79,7 @@ void System::UpdateTime(qint64 Miliseconds){
         );
 }
 
-void System::cancelDialog(){
+void System::cancelStartDialog(){
     STsession->close();
     delete STsession;
 }
@@ -119,4 +119,60 @@ void System::setPlatformToString(std::unordered_map<Platform, QString> &Platform
     for(auto &i : PlatformToQString){
         this->PlatformToQString[i.first] = i.second;
     }
+}
+
+void System::setProductCatalog(ProductCatalog *productCatalog){
+    this->productCatalog = productCatalog;
+}
+
+void System::on_pushButton_products_clicked()
+{
+    productDialog = new ProductsDialog(productCatalog, this);
+    productDialog->show();
+    connect(productDialog, &ProductsDialog::cancelRequested, this, &System::cancelProductDialog);
+    connect(productDialog, &ProductsDialog::addProductRequested, this, &System::addProductToList);
+}
+
+void System::cancelProductDialog(){
+    productDialog->close();
+    delete productDialog;
+}
+
+QString centerText(const QString& text, int width)
+{
+    int totalPadding = width - text.length();
+
+    if (totalPadding <= 0)
+        return text;
+
+    int leftPadding = totalPadding / 2;
+    int rightPadding = totalPadding - leftPadding;
+
+    return QString(leftPadding, ' ')
+           + text
+           + QString(rightPadding, ' ');
+}
+
+void System::addProductItem(ProductItem item){
+    if(ItemsList.count(item.getProduct().getName())){
+        ItemsList[item.getProduct().getName()] += item;
+        return;
+    }
+    ItemsList[item.getProduct().getName()] = item;
+}
+
+void System::updateProductBrowser(){
+
+    ui->textBrowser_price->clear();
+    for(const auto& [name, item] : ItemsList){
+        QString tmp = centerText(name, 35) + centerText( ('x' + QString::number(item.getQuantity())), 8) + centerText(QLocale(QLocale::English).toString(item.getProduct().getPrice()), 35) + "\n";
+        ui->textBrowser_price->insertPlainText(tmp);
+    }
+}
+
+void System::addProductToList(QString productName, int quantity){
+    ProductItem item(productCatalog->getProduct(productName), quantity);
+    addProductItem(item);
+    updateProductBrowser();
+    productDialog->close();
 }

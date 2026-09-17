@@ -9,6 +9,9 @@
 #include "startsessiondialog.h"
 #include "../Logic/timer.h"
 #include "../Logic/pricingmanager.h"
+#include "../Logic/productcatalog.h"
+#include "../Logic/productitem.h"
+#include "productsdialog.h"
 
 namespace Ui {
 class System;
@@ -18,22 +21,28 @@ class System : public QWidget
 {
     Q_OBJECT
 
+
 public:
     explicit System(Platform platform, std::unordered_map<Platform, QString> &PlatformToQString, QWidget *parent = nullptr);
     ~System();
     void setPriceManager(PricingManager *priceManager);
     static int counter;
     void setPlatformToString(std::unordered_map<Platform, QString> &PlatformToQString);
-
+    void setProductCatalog(ProductCatalog *productCatalog);
+    void addProductItem(ProductItem item);
 
 private slots:
     void on_pushButton_start_session_clicked();
     void startTimerBySetTime();
     void UpdateTime(qint64 Miliseconds);
-    void cancelDialog();
+    void cancelStartDialog();
     void startFreeTime();
     void on_pushButton_stop_resume_clicked();
     void zeroTimer();
+    void on_pushButton_products_clicked();
+    void cancelProductDialog();
+    void addProductToList(QString productName, int quantity);
+    void updateProductBrowser();
 
 
 private:
@@ -41,6 +50,9 @@ private:
     StartSessionDialog *STsession;
     Timer timer;
     PricingManager *priceManager;
+    ProductCatalog *productCatalog;
+    ProductsDialog *productDialog;
+    std::unordered_map<QString, ProductItem> ItemsList;
     Platform platform;
     std::unordered_map<Platform, QString> PlatformToQString;
     int playerCount;

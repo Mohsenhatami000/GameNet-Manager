@@ -13,7 +13,7 @@ public:
     void addProduct(Product product);
     void removeProduct(QString name);
     Product getProduct(QString name) const;
-
+    const std::map<QString, Product>& getProductList() const;
 };
 
 #endif // PRODUCTCATALOG_H
