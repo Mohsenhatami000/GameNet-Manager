@@ -8,10 +8,12 @@ System::System(Platform platform, std::unordered_map<Platform, QString> &Platfor
     , ui(new Ui::System)
     , timer(this)
     , platform(platform)
+    , time(0, 0)
 {
     ui->setupUi(this);
     ui->stackedWidget->setCurrentWidget(ui->page);
-    menuDialog = new MenuDialog();
+    menuDialog = new MenuDialog(this);
+    connect(menuDialog, &MenuDialog::extendTimeRequested, this, &System::extendTime);
     connect(menuDialog, &MenuDialog::cancelRequested, this, &System::cancelMenu);
     counter++;
     id = counter;
@@ -46,9 +48,10 @@ void System::startTimerBySetTime(){
     STsession->close();
     ui->stackedWidget->setCurrentWidget(ui->page_2);
     playerCount = STsession->getPlayerCount();
+    time = STsession->getTime();
     ui->label_player_Count->setText(QString(QString::number(playerCount) + " Player(s)"));
     timer.setMode(TimerMode::countDown);
-    timer.setDuration(STsession->getTime().msecsSinceStartOfDay());
+    timer.setDuration(time.msecsSinceStartOfDay());
     timer.start();
     connect(&timer, &Timer::TimeChanged, this, &System::UpdateTime);
 
@@ -61,12 +64,11 @@ void System::UpdateTime(qint64 Miliseconds){
     int Hours = (TimeInMinute / 60);
     int Minutes = TimeInMinute % 60;
     int Seconds = (Miliseconds / 1000) % 60;
-    qint32 price;
 
     price = priceManager->getRule(platform, playerCount).calculateMoneyFromTime(QTime(Hours, Minutes, Seconds));
 
     if(timer.getMode() == TimerMode::countDown){
-        qint32 totalPrice = priceManager->getRule(platform, playerCount).calculateMoneyFromTime(STsession->getTime());
+        qint32 totalPrice = priceManager->getRule(platform, playerCount).calculateMoneyFromTime(time);
         price = totalPrice - price;
     }
 
@@ -182,9 +184,21 @@ void System::addProductToList(QString productName, int quantity){
 void System::on_pushButton_menu_clicked()
 {
     menuDialog->show();
+    if(timer.getMode() == TimerMode::countUp){
+        menuDialog->disableExtendTime();
+    }
+    else{
+        menuDialog->enableExtendTime();
+    }
 }
 
 void System::cancelMenu(){
     menuDialog->close();
 }
 
+void System::extendTime(QTime extendTime){
+    timer.extendTime(extendTime);
+    QTime tmp = time.addMSecs(extendTime.msecsSinceStartOfDay());
+    time.setHMS(tmp.hour(), tmp.minute(), tmp.second());
+    menuDialog->close();
+}

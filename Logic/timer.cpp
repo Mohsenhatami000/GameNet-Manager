@@ -1,4 +1,6 @@
 #include "timer.h"
+
+
 Timer::Timer(QObject *parent): QObject(parent){
     timer = new QTimer(this);
     remainingTime = 0;
@@ -78,3 +80,13 @@ void Timer::onTimeout(){
 TimerMode Timer::getMode() const{
     return mode;
 }
+
+
+void Timer::extendTime(QTime time){
+    stop();
+
+    remainingTime += time.msecsSinceStartOfDay();
+    resume();
+}
+
+

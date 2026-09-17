@@ -4,6 +4,7 @@
 #include <QTimer>
 #include <QElapsedTimer>
 #include <QObject>
+#include <QTime>
 
 enum class TimerMode{
     countDown,
@@ -37,6 +38,7 @@ public:
     void resume();
     bool getIsRunning() const;
     TimerMode getMode() const;
+    void extendTime(QTime time);
 signals:
     void TimeChanged(qint64 Miliseconds);
     void zeroTimerRequested();

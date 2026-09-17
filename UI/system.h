@@ -45,14 +45,14 @@ private slots:
     void cancelMenu();
     void addProductToList(QString productName, int quantity);
     void updateProductBrowser();
-
-
+    void extendTime(QTime extendTime);
     void on_pushButton_menu_clicked();
 
 private:
     Ui::System *ui;
     StartSessionDialog *STsession;
     Timer timer;
+    QTime time;
     PricingManager *priceManager;
     ProductCatalog *productCatalog;
     ProductsDialog *productDialog;
@@ -63,6 +63,7 @@ private:
     int playerCount;
     int id;
     QString Name;
+    qint32 price;
 };
 
 

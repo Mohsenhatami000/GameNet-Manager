@@ -44,6 +44,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         Logic/productitem.h Logic/productitem.cpp
         UI/productsdialog.h UI/productsdialog.cpp UI/productsdialog.ui
         UI/menudialog.h UI/menudialog.cpp UI/menudialog.ui
+        UI/extendtimedialog.h UI/extendtimedialog.cpp UI/extendtimedialog.ui
     )
 
 else()
