@@ -8,6 +8,7 @@ ChangePlayerCountDialog::ChangePlayerCountDialog(int playerCount, QWidget *paren
     , ui(new Ui::ChangePlayerCountDialog)
 {
     ui->setupUi(this);
+    setWindowTitle("تغییر تعداد بازیکن");
     this->playerCount = playerCount;
     ui->spinBox_player_count->setValue(playerCount);
 }
@@ -30,7 +31,7 @@ void ChangePlayerCountDialog::on_pushButton_change_clicked()
         playerCountChanged(playerCount);
     }
     else{
-        QMessageBox::warning(this, "Invalid input", "player Count must be different!");
+        QMessageBox::warning(this, "تغییر اعمال نشد", "تعداد بازیکن باید با مقدار فعلی متفاوت باشد.");
     }
 }
 

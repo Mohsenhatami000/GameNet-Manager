@@ -2,6 +2,7 @@
 #include "ui_system.h"
 #include <QTime>
 #include <QLocale>
+#include <QStyle>
 #include "../Logic/productitem.h"
 
 System::System(Platform platform, std::unordered_map<Platform, QString> &PlatformToQString, QWidget *parent)
@@ -14,6 +15,7 @@ System::System(Platform platform, std::unordered_map<Platform, QString> &Platfor
 {
     ui->setupUi(this);
     ui->stackedWidget->setCurrentWidget(ui->page);
+    connect(&timer, &Timer::zeroTimerRequested, this, &System::on_pushButton_end_session_clicked);
 
     menuDialog = new MenuDialog(this);
     connect(menuDialog, &MenuDialog::extendTimeRequested, this, &System::onExtendTime);
@@ -26,6 +28,7 @@ System::System(Platform platform, std::unordered_map<Platform, QString> &Platfor
     Name = PlatformToQString[platform] + "-" + QString("%1").arg(id, 2, 10, QChar('0'));
     ui->label_name1->setText(Name);
     ui->label_name2->setText(Name);
+    setSessionActive(false);
 }
 
 int System::counter = 0;
@@ -52,13 +55,14 @@ void System::startTimerBySetTime(){
 
     STsession->close();
     ui->stackedWidget->setCurrentWidget(ui->page_2);
+    setSessionActive(true);
     playerCount = STsession->getPlayerCount();
     setDuration = STsession->getTime();
-    ui->label_player_Count->setText(QString(QString::number(playerCount) + " Player(s)"));
+    ui->label_player_Count->setText(QString::number(playerCount) + " بازیکن");
     timer.setMode(TimerMode::countDown);
     timer.setDuration(setDuration.msecsSinceStartOfDay());
     timer.start();
-    connect(&timer, &Timer::TimeChanged, this, &System::UpdateTime);
+    connect(&timer, &Timer::TimeChanged, this, &System::UpdateTime, Qt::UniqueConnection);
 
 }
 
@@ -84,7 +88,7 @@ void System::UpdateTime(qint64 Miliseconds){
         price = totalPrice - price;
     }
 
-    ui->label_price->setText('$' + QLocale(QLocale::English).toString(price));
+    ui->label_price->setText(QLocale(QLocale::English).toString(price) + " تومان");
     ui->label_price->setAlignment(Qt::AlignCenter);
 
     ui->label_Timer->setText(
@@ -103,23 +107,43 @@ void System::on_pushButton_stop_resume_clicked()
 {
     if(timer.getIsRunning()){
         timer.stop();
-        ui->pushButton_stop_resume->setText("Resume");
+        ui->pushButton_stop_resume->setText("ادامه");
     }
     else{
         timer.resume();
-        ui->pushButton_stop_resume->setText("Stop");
+        ui->pushButton_stop_resume->setText("توقف");
     }
+}
+
+void System::on_pushButton_end_session_clicked()
+{
+    if (timer.getIsRunning())
+        timer.stop();
+
+    zeroTimer();
+    ui->label_price->setText("۰ تومان");
+    ui->textBrowser_price->setHtml("<p align='center'>محصولات افزوده‌شده در این بخش نمایش داده می‌شوند</p>");
+    ui->pushButton_stop_resume->setText("توقف");
+    ItemsList.clear();
+    CostSegment.clear();
+    setDuration = QTime(0, 0);
+    timeInProgress = 0;
+    segmentStartTime = 0;
+    price = 0;
+    ui->stackedWidget->setCurrentWidget(ui->page);
+    setSessionActive(false);
 }
 
 void System::startFreeTime(){
 
     STsession->close();
     ui->stackedWidget->setCurrentWidget(ui->page_2);
+    setSessionActive(true);
     timer.setMode(TimerMode::countUp);
     timer.start();
     playerCount = STsession->getPlayerCount();
-    ui->label_player_Count->setText(QString(QString::number(playerCount) + " Player(s)"));
-    connect(&timer, &Timer::TimeChanged, this, &System::UpdateTime);
+    ui->label_player_Count->setText(QString::number(playerCount) + " بازیکن");
+    connect(&timer, &Timer::TimeChanged, this, &System::UpdateTime, Qt::UniqueConnection);
 }
 
 void System::zeroTimer(){
@@ -180,20 +204,55 @@ void System::addProductItem(ProductItem item){
 void System::updateProductBrowser(){
 
     ui->textBrowser_price->clear();
-    QString tmp;
+    QString html = R"(
+                        <table width="100%" cellspacing="0" cellpadding="4">
+                    )";
+
     QTime durationQTime;
+
     for(const auto& [name, item] : ItemsList){
-        tmp = centerText(name, 35) + centerText( ('x' + QString::number(item.getQuantity())), 8) + centerText(QLocale(QLocale::English).toString(item.getProduct().getPrice()), 35) + "\n";
-        ui->textBrowser_price->insertPlainText(tmp);
+
+        html += "<tr>";
+
+        html += "<td align=\"center\">" +
+                name +
+                "</td>";
+
+        html += "<td align=\"center\">x" +
+                QString::number(item.getQuantity()) +
+                "</td>";
+
+        html += "<td align=\"center\">" +
+                QLocale(QLocale::English).toString(
+                    item.getProduct().getPrice()
+                    ) +
+                "</td>";
+
+        html += "</tr>";
     }
-    ui->textBrowser_price->insertPlainText(QString("\n"));
 
     for(const auto& [pCount, duration] : CostSegment){
         durationQTime = durationQTime.fromMSecsSinceStartOfDay(duration);
         qint32 totalPrice = priceManager->getRule(platform, pCount).calculateMoneyFromTime(durationQTime);
-        tmp = centerText(durationQTime.toString("hh:mm:ss"), 35) + centerText(QString::number(pCount), 8) + centerText(QLocale(QLocale::English).toString(totalPrice), 35) + "\n";
-        ui->textBrowser_price->insertPlainText(tmp);
+
+        html += "<tr>";
+
+        html += "<td align=\"center\">" +
+                durationQTime.toString("hh:mm:ss") +
+                "</td>";
+
+        html += "<td align=\"center\">x" +
+                QString::number(pCount) +
+                "</td>";
+
+        html += "<td align=\"center\">" +
+                QLocale(QLocale::English).toString(
+                    totalPrice) +
+                "</td>";
+
+        html += "</tr>";
     }
+    ui->textBrowser_price->setHtml(html);
 }
 
 void System::addProductToList(QString productName, int quantity){
@@ -201,6 +260,16 @@ void System::addProductToList(QString productName, int quantity){
     addProductItem(item);
     updateProductBrowser();
     productDialog->close();
+}
+
+void System::setSessionActive(bool active)
+{
+    sessionActive = active;
+    setProperty("sessionActive", active);
+    ui->stationCard->setProperty("active", active);
+    ui->stationCard->style()->unpolish(ui->stationCard);
+    ui->stationCard->style()->polish(ui->stationCard);
+    emit sessionStateChanged(active);
 }
 
 void System::on_pushButton_menu_clicked()
@@ -236,7 +305,7 @@ void System::addToCostSegment(int playerCount, qint64 duration){
 
 void System::onPlayerCountChanged(int pCount){
     cancelMenu();
-    ui->label_player_Count->setText(QString::number(pCount) + " Player(s)");
+    ui->label_player_Count->setText(QString::number(pCount) + " بازیکن");
     segmentStartTime = timeInProgress;
     addToCostSegment(playerCount, timeInProgress);
     playerCount = pCount;

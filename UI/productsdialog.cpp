@@ -7,6 +7,7 @@ ProductsDialog::ProductsDialog(ProductCatalog *productCatalog, QWidget *parent)
 {
     this->productCatalog = productCatalog;
     ui->setupUi(this);
+    setWindowTitle("افزودن محصول");
     const auto& products = productCatalog->getProductList();
     for(const auto &i : products){
         ui->comboBox_items->addItem(i.first);

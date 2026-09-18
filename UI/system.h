@@ -32,6 +32,9 @@ public:
     void setProductCatalog(ProductCatalog *productCatalog);
     void addProductItem(ProductItem item);
 
+signals:
+    void sessionStateChanged(bool active);
+
 private slots:
     void on_pushButton_start_session_clicked();
     void startTimerBySetTime();
@@ -39,6 +42,7 @@ private slots:
     void cancelStartDialog();
     void startFreeTime();
     void on_pushButton_stop_resume_clicked();
+    void on_pushButton_end_session_clicked();
     void zeroTimer();
     void on_pushButton_products_clicked();
     void cancelProductDialog();
@@ -49,6 +53,7 @@ private slots:
     void on_pushButton_menu_clicked();
     void onPlayerCountChanged(int pCount);
     void addToCostSegment(int playerCount, qint64 duration);
+    void setSessionActive(bool active);
 
 private:
     Ui::System *ui;
@@ -69,6 +74,7 @@ private:
     int id;
     QString Name;
     qint32 price;
+    bool sessionActive = false;
 };
 
 

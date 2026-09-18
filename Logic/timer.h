@@ -18,7 +18,7 @@ class Timer : public QObject
 private:
     QTimer *timer;
     QElapsedTimer elapsedTimer;
-    QDeadlineTimer *deadLine;
+    QDeadlineTimer *deadLine = nullptr;
     bool is_running;
     qint64 remainingTime;
     qint64 elapsedTime;

@@ -9,7 +9,8 @@ StartSessionDialog::StartSessionDialog(QString Name, QWidget *parent)
     this->Name = Name;
     ui->setupUi(this);
     ui->stackedWidget->setCurrentWidget(ui->page_4);
-    ui->label_titr->setText(QString("Start Session - ") + Name);
+    setWindowTitle(QString("شروع جلسه | ") + Name);
+    ui->label_titr->setText(QString("شروع جلسه — ") + Name);
     time.setHMS(1, 0, 0);
     playerCount = 1;
 }

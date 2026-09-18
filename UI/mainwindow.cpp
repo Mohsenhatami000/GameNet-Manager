@@ -5,12 +5,17 @@
 #include "system.h"
 #include <unordered_map>
 #include <QDebug>
+#include <QGridLayout>
+#include <QSizePolicy>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    setWindowTitle("GameNet | مدیریت گیم‌نت");
+    ui->menubar->hide();
+    ui->statusbar->hide();
 
     std::unordered_map<Platform, QString> PlatformToQString;
     PlatformToQString[Platform::PC] = "PC";
@@ -22,6 +27,9 @@ MainWindow::MainWindow(QWidget *parent)
     priceManager = new PricingManager();
 
     QGridLayout* grid = new QGridLayout(ui->scrollAreaWidgetContents);
+    grid->setContentsMargins(2, 2, 2, 2);
+    grid->setHorizontalSpacing(18);
+    grid->setVerticalSpacing(18);
 
     priceManager->addPricingRule(PricingRule(Platform::PS4, 1, 45000));
     priceManager->addPricingRule(PricingRule(Platform::PS4, 2, 80000));
@@ -44,17 +52,22 @@ MainWindow::MainWindow(QWidget *parent)
 
     for (int row = 0; row < 2; row++) {
         for (int col = 0; col < 3; col++) {
-            QVBoxLayout* vertical = new QVBoxLayout();
-            grid->addLayout(vertical, row, col);
-
             System* tmp = new System(Platform::PS4, PlatformToQString);
-            tmp->setMinimumSize(300, 400);
+            tmp->setMinimumSize(340, 410);
+            tmp->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
 
             tmp->setPriceManager(priceManager);
             tmp->setProductCatalog(productCatalog);
-            vertical->addWidget(tmp);
+            grid->addWidget(tmp, row, col);
+            systems.push_back(tmp);
+            connect(tmp, &System::sessionStateChanged, this, [this](bool) { refreshDashboard(); });
         }
     }
+
+    for (int column = 0; column < 3; ++column)
+        grid->setColumnStretch(column, 1);
+
+    refreshDashboard();
 
 
 }
@@ -62,5 +75,19 @@ MainWindow::MainWindow(QWidget *parent)
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+void MainWindow::refreshDashboard()
+{
+    int active = 0;
+    for (const auto *system : systems) {
+        if (system->property("sessionActive").toBool())
+            ++active;
+    }
+
+    const int available = static_cast<int>(systems.size()) - active;
+    ui->activeValue->setText(QString::number(active));
+    ui->freeValue->setText(QString::number(available));
+    ui->totalValue->setText(QString::number(systems.size()));
 }
 

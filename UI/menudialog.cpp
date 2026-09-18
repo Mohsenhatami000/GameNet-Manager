@@ -9,6 +9,7 @@ MenuDialog::MenuDialog(QWidget *parent)
     , playerCountDialog(nullptr)
 {
     ui->setupUi(this);
+    setWindowTitle("تنظیمات جلسه");
 }
 
 MenuDialog::~MenuDialog()

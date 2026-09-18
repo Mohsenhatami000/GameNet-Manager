@@ -6,6 +6,7 @@ ExtendTimeDialog::ExtendTimeDialog(QWidget *parent)
     , ui(new Ui::ExtendTimeDialog)
 {
     ui->setupUi(this);
+    setWindowTitle("افزایش زمان جلسه");
     time.setHMS(1, 0, 0);
 }
 

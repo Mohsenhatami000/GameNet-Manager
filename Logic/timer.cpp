@@ -6,6 +6,7 @@ Timer::Timer(QObject *parent): QObject(parent){
     remainingTime = 0;
     elapsedTime = 0;
     is_running = false;
+    connect(timer, &QTimer::timeout, this, &Timer::onTimeout);
 }
 
 Timer::~Timer(){
@@ -25,22 +26,23 @@ void Timer::start(){
     is_running = true;
 
     if(mode == TimerMode::countDown){
+        delete deadLine;
         deadLine = new QDeadlineTimer(duration);
     }
     else if(mode == TimerMode::countUp){
+        elapsedTime = 0;
         elapsedTimer.start();
     }
-    connect(timer, &QTimer::timeout, this, &Timer::onTimeout);
-
 }
 
 void Timer::stop(){
     timer->stop();
     is_running = false;
 
-    if(mode == TimerMode::countDown){
+    if(mode == TimerMode::countDown && deadLine){
         remainingTime = deadLine->remainingTime();
         delete deadLine;
+        deadLine = nullptr;
     }
     else{
         elapsedTime = elapsedTimer.elapsed();
@@ -51,12 +53,12 @@ void Timer::resume(){
     timer->start(1000);
     is_running = true;
     if(mode == TimerMode::countDown){
+        delete deadLine;
         deadLine = new QDeadlineTimer(remainingTime);
     }
     else{
         elapsedTimer.restart();
     }
-    connect(timer, &QTimer::timeout, this, &Timer::onTimeout);
 }
 
 bool Timer::getIsRunning() const{
@@ -65,9 +67,10 @@ bool Timer::getIsRunning() const{
 
 void Timer::onTimeout(){
     if(mode == TimerMode::countDown){
-        if(deadLine->remainingTime() <= 0){
+        if(!deadLine || deadLine->remainingTime() <= 0){
             emit zeroTimerRequested();
             timer->stop();
+            is_running = false;
             return;
         }
         emit TimeChanged(deadLine->remainingTime());

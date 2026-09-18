@@ -6,6 +6,7 @@ DescriptionDialog::DescriptionDialog(QWidget *parent)
     , ui(new Ui::DescriptionDialog)
 {
     ui->setupUi(this);
+    setWindowTitle("یادداشت جلسه");
 }
 
 DescriptionDialog::~DescriptionDialog()

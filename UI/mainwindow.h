@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <QHBoxLayout>
+#include <vector>
 #include "../Logic/pricingmanager.h"
 #include "../Logic/productcatalog.h"
 
@@ -22,8 +23,11 @@ public:
     ~MainWindow() override;
 
 private:
+    void refreshDashboard();
+
     Ui::MainWindow *ui;
     std::vector<QHBoxLayout*> horiz;
+    std::vector<class System*> systems;
     PricingManager *priceManager;
     ProductCatalog *productCatalog;
 
