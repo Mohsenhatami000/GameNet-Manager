@@ -4,6 +4,7 @@
 #include <QDialog>
 #include "extendtimedialog.h"
 #include "descriptiondialog.h"
+#include "changeplayercountdialog.h"
 
 namespace Ui {
 class MenuDialog;
@@ -18,10 +19,12 @@ public:
     ~MenuDialog();
     void enableExtendTime();
     void disableExtendTime();
+    void setPlayerCount(int playerCount);
 
 signals:
     void cancelRequested();
     void extendTimeRequested(QTime time);
+    void playerCountChanged(int pCount);
 
 private slots:
     void on_pushButton_back_clicked();
@@ -30,11 +33,16 @@ private slots:
     void onExtendTime(QTime time);
     void on_pushButton_description_clicked();
     void descriptionBackToMain();
+    void on_pushButton_change_player_count_clicked();
+    void changePlayerBackToMain();
+    void onPlayerCount(int pCount);
 
 private:
     Ui::MenuDialog *ui;
     ExtendTimeDialog *extendTimeDialog;
     DescriptionDialog *descriptionDialog;
+    ChangePlayerCountDialog *playerCountDialog;
+    int playerCount;
 
 };
 

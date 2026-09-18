@@ -45,19 +45,24 @@ private slots:
     void cancelMenu();
     void addProductToList(QString productName, int quantity);
     void updateProductBrowser();
-    void extendTime(QTime extendTime);
+    void onExtendTime(QTime extendTime);
     void on_pushButton_menu_clicked();
+    void onPlayerCountChanged(int pCount);
+    void addToCostSegment(int playerCount, qint64 duration);
 
 private:
     Ui::System *ui;
     StartSessionDialog *STsession;
     Timer timer;
-    QTime time;
+    QTime setDuration;
+    qint64 timeInProgress;
+    qint64 segmentStartTime;
     PricingManager *priceManager;
     ProductCatalog *productCatalog;
     ProductsDialog *productDialog;
     MenuDialog *menuDialog;
     std::unordered_map<QString, ProductItem> ItemsList;
+    std::unordered_map<int, qint64> CostSegment;
     Platform platform;
     std::unordered_map<Platform, QString> PlatformToQString;
     int playerCount;

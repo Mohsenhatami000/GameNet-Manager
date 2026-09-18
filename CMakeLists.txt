@@ -46,6 +46,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         UI/menudialog.h UI/menudialog.cpp UI/menudialog.ui
         UI/extendtimedialog.h UI/extendtimedialog.cpp UI/extendtimedialog.ui
         UI/descriptiondialog.h UI/descriptiondialog.cpp UI/descriptiondialog.ui
+        UI/changeplayercountdialog.h UI/changeplayercountdialog.cpp UI/changeplayercountdialog.ui
     )
 
 else()

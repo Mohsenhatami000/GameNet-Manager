@@ -2,19 +2,24 @@
 #include "ui_system.h"
 #include <QTime>
 #include <QLocale>
+#include "../Logic/productitem.h"
 
 System::System(Platform platform, std::unordered_map<Platform, QString> &PlatformToQString, QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::System)
     , timer(this)
     , platform(platform)
-    , time(0, 0)
+    , setDuration(0, 0)
+    , segmentStartTime(0)
 {
     ui->setupUi(this);
     ui->stackedWidget->setCurrentWidget(ui->page);
+
     menuDialog = new MenuDialog(this);
-    connect(menuDialog, &MenuDialog::extendTimeRequested, this, &System::extendTime);
+    connect(menuDialog, &MenuDialog::extendTimeRequested, this, &System::onExtendTime);
     connect(menuDialog, &MenuDialog::cancelRequested, this, &System::cancelMenu);
+    connect(menuDialog, &MenuDialog::playerCountChanged, this, &System::onPlayerCountChanged);
+
     counter++;
     id = counter;
     setPlatformToString(PlatformToQString);
@@ -48,10 +53,10 @@ void System::startTimerBySetTime(){
     STsession->close();
     ui->stackedWidget->setCurrentWidget(ui->page_2);
     playerCount = STsession->getPlayerCount();
-    time = STsession->getTime();
+    setDuration = STsession->getTime();
     ui->label_player_Count->setText(QString(QString::number(playerCount) + " Player(s)"));
     timer.setMode(TimerMode::countDown);
-    timer.setDuration(time.msecsSinceStartOfDay());
+    timer.setDuration(setDuration.msecsSinceStartOfDay());
     timer.start();
     connect(&timer, &Timer::TimeChanged, this, &System::UpdateTime);
 
@@ -60,15 +65,22 @@ void System::startTimerBySetTime(){
 
 void System::UpdateTime(qint64 Miliseconds){
 
+    if(timer.getMode() == TimerMode::countUp){
+        timeInProgress = Miliseconds;
+    }
+    else{
+        timeInProgress = setDuration.msecsSinceStartOfDay() - Miliseconds;
+    }
+
     qint64 TimeInMinute = (Miliseconds / 1000) / 60;
     int Hours = (TimeInMinute / 60);
     int Minutes = TimeInMinute % 60;
     int Seconds = (Miliseconds / 1000) % 60;
 
-    price = priceManager->getRule(platform, playerCount).calculateMoneyFromTime(QTime(Hours, Minutes, Seconds));
+    price = priceManager->getRule(platform, playerCount).calculateMoneyFromTime(QTime(Hours, Minutes, Seconds).addMSecs(-segmentStartTime));
 
     if(timer.getMode() == TimerMode::countDown){
-        qint32 totalPrice = priceManager->getRule(platform, playerCount).calculateMoneyFromTime(time);
+        qint32 totalPrice = priceManager->getRule(platform, playerCount).calculateMoneyFromTime(setDuration.addMSecs(-segmentStartTime));
         price = totalPrice - price;
     }
 
@@ -168,8 +180,18 @@ void System::addProductItem(ProductItem item){
 void System::updateProductBrowser(){
 
     ui->textBrowser_price->clear();
+    QString tmp;
+    QTime durationQTime;
     for(const auto& [name, item] : ItemsList){
-        QString tmp = centerText(name, 35) + centerText( ('x' + QString::number(item.getQuantity())), 8) + centerText(QLocale(QLocale::English).toString(item.getProduct().getPrice()), 35) + "\n";
+        tmp = centerText(name, 35) + centerText( ('x' + QString::number(item.getQuantity())), 8) + centerText(QLocale(QLocale::English).toString(item.getProduct().getPrice()), 35) + "\n";
+        ui->textBrowser_price->insertPlainText(tmp);
+    }
+    ui->textBrowser_price->insertPlainText(QString("\n"));
+
+    for(const auto& [pCount, duration] : CostSegment){
+        durationQTime = durationQTime.fromMSecsSinceStartOfDay(duration);
+        qint32 totalPrice = priceManager->getRule(platform, pCount).calculateMoneyFromTime(durationQTime);
+        tmp = centerText(durationQTime.toString("hh:mm:ss"), 35) + centerText(QString::number(pCount), 8) + centerText(QLocale(QLocale::English).toString(totalPrice), 35) + "\n";
         ui->textBrowser_price->insertPlainText(tmp);
     }
 }
@@ -184,6 +206,7 @@ void System::addProductToList(QString productName, int quantity){
 void System::on_pushButton_menu_clicked()
 {
     menuDialog->show();
+    menuDialog->setPlayerCount(playerCount);
     if(timer.getMode() == TimerMode::countUp){
         menuDialog->disableExtendTime();
     }
@@ -196,9 +219,29 @@ void System::cancelMenu(){
     menuDialog->close();
 }
 
-void System::extendTime(QTime extendTime){
+void System::onExtendTime(QTime extendTime){
     timer.extendTime(extendTime);
-    QTime tmp = time.addMSecs(extendTime.msecsSinceStartOfDay());
-    time.setHMS(tmp.hour(), tmp.minute(), tmp.second());
+    QTime tmp = setDuration.addMSecs(extendTime.msecsSinceStartOfDay());
+    setDuration.setHMS(tmp.hour(), tmp.minute(), tmp.second());
     menuDialog->close();
 }
+
+void System::addToCostSegment(int playerCount, qint64 duration){
+    if(!CostSegment.count(playerCount)){
+        CostSegment[playerCount] = duration;
+        return;
+    }
+    CostSegment[playerCount] += duration;
+}
+
+void System::onPlayerCountChanged(int pCount){
+    cancelMenu();
+    ui->label_player_Count->setText(QString::number(pCount) + " Player(s)");
+    segmentStartTime = timeInProgress;
+    addToCostSegment(playerCount, timeInProgress);
+    playerCount = pCount;
+    setDuration = QTime::fromMSecsSinceStartOfDay(setDuration.msecsSinceStartOfDay() - timeInProgress);
+    updateProductBrowser();
+}
+
+

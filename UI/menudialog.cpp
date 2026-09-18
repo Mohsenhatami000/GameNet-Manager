@@ -6,6 +6,7 @@ MenuDialog::MenuDialog(QWidget *parent)
     , ui(new Ui::MenuDialog)
     , extendTimeDialog(nullptr)
     , descriptionDialog(nullptr)
+    , playerCountDialog(nullptr)
 {
     ui->setupUi(this);
 }
@@ -55,4 +56,29 @@ void MenuDialog::on_pushButton_description_clicked()
 
 void MenuDialog::descriptionBackToMain(){
     descriptionDialog->close();
+}
+
+void MenuDialog::on_pushButton_change_player_count_clicked()
+{
+    if(!playerCountDialog){
+        playerCountDialog = new ChangePlayerCountDialog(playerCount, this);
+        connect(playerCountDialog, &ChangePlayerCountDialog::cancelRequested, this, &MenuDialog::changePlayerBackToMain);
+        connect(playerCountDialog, &ChangePlayerCountDialog::playerCountChanged, this, &MenuDialog::onPlayerCount);
+    }
+    playerCountDialog->show();
+}
+
+void MenuDialog::changePlayerBackToMain(){
+    playerCountDialog->close();
+    delete playerCountDialog;
+    playerCountDialog = nullptr;
+}
+
+void MenuDialog::setPlayerCount(int playerCount){
+    this->playerCount = playerCount;
+}
+
+void MenuDialog::onPlayerCount(int pCount){
+    changePlayerBackToMain();
+    emit playerCountChanged(pCount);
 }
