@@ -19,3 +19,6 @@ void DescriptionDialog::on_pushButton_close_clicked()
     emit backToMainRequested();
 }
 
+QString DescriptionDialog::getDescription() const{
+    return ui->textEdit->toPlainText();
+}

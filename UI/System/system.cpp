@@ -231,6 +231,15 @@ void System::on_pushButton_end_session_clicked()
 
     html += "</tr>";
 
+
+    html += "<br>";
+    html += "<tr> <td> </td> <td align=\"center\">توضیحات :</td> <td> </td></tr>";
+    html += "<br>";
+    html += "<div style=\"white-space: pre-line;\">";
+    html += menuDialog->getDescription();
+    html += "</div>";
+
+
     sessionSummaryDialog->setTextBrowser(html);
 }
 

@@ -20,6 +20,7 @@ public:
     void enableExtendTime();
     void disableExtendTime();
     void setPlayerCount(int playerCount);
+    QString getDescription() const;
 
 signals:
     void cancelRequested();

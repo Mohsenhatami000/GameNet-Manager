@@ -83,3 +83,12 @@ void MenuDialog::onPlayerCount(int pCount){
     changePlayerBackToMain();
     emit playerCountChanged(pCount);
 }
+
+QString MenuDialog::getDescription() const{
+    if(descriptionDialog){
+        return descriptionDialog->getDescription();
+    }
+    else{
+        return QString("");
+    }
+}

@@ -14,6 +14,7 @@ class DescriptionDialog : public QDialog
 public:
     explicit DescriptionDialog(QWidget *parent = nullptr);
     ~DescriptionDialog();
+    QString getDescription() const;
 
 signals:
     void backToMainRequested();
