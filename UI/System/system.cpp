@@ -15,6 +15,20 @@ System::System(Platform platform, std::unordered_map<Platform, QString> &Platfor
 {
     ui->setupUi(this);
     ui->stackedWidget->setCurrentWidget(ui->page);
+    ui->stationIcon->setText(PlatformToQString[platform]);
+    if(platform == Platform::PS4 || platform == Platform::PS5){
+        ui->platformBadge->setText("PLAYSTATION");
+    }
+    else if(platform == Platform::PC){
+        ui->platformBadge->setText("COMPUTER");
+    }
+    else if(platform == Platform::SteeringWheel){
+        ui->platformBadge->setText("STEERING WHEEL");
+    }
+    else if(platform == Platform::VR){
+        ui->platformBadge->setText("VIRTUAL REALITY");
+    }
+
     connect(&timer, &Timer::zeroTimerRequested, this, &System::on_pushButton_end_session_clicked);
 
     menuDialog = new MenuDialog(this);
