@@ -13,6 +13,7 @@
 #include "../Logic/productitem.h"
 #include "menudialog.h"
 #include "productsdialog.h"
+#include "sessionsummarydialog.h"
 
 namespace Ui {
 class System;
@@ -54,6 +55,8 @@ private slots:
     void onPlayerCountChanged(int pCount);
     void addToCostSegment(int playerCount, qint64 duration);
     void setSessionActive(bool active);
+    void onEndSession();
+    void endSessionBackToSystem();
 
 private:
     Ui::System *ui;
@@ -66,6 +69,7 @@ private:
     ProductCatalog *productCatalog;
     ProductsDialog *productDialog;
     MenuDialog *menuDialog;
+    SessionSummaryDialog *sessionSummaryDialog = nullptr;
     std::unordered_map<QString, ProductItem> ItemsList;
     std::unordered_map<int, qint64> CostSegment;
     Platform platform;

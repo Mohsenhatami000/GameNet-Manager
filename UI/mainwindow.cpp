@@ -45,9 +45,9 @@ MainWindow::MainWindow(QWidget *parent)
     priceManager->addPricingRule(PricingRule(Platform::PS4, 4, 160000));
 
     productCatalog = new ProductCatalog();
-    productCatalog->addProduct(Product(QString("Cake"), 35000));
-    productCatalog->addProduct(Product(QString("Juice"), 58000));
-    productCatalog->addProduct(Product(QString("Biscuit"), 55000));
+    productCatalog->addProduct(Product(QString("کیک"), 35000));
+    productCatalog->addProduct(Product(QString("آبمیوه"), 58000));
+    productCatalog->addProduct(Product(QString("بیسکویت"), 55000));
 
 
     for (int row = 0; row < 2; row++) {

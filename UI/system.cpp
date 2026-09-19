@@ -117,9 +117,130 @@ void System::on_pushButton_stop_resume_clicked()
 
 void System::on_pushButton_end_session_clicked()
 {
+    if(!sessionSummaryDialog){
+        sessionSummaryDialog = new SessionSummaryDialog(this);
+        sessionSummaryDialog->show();
+        connect(sessionSummaryDialog, &SessionSummaryDialog::endSessionRequested, this, &System::onEndSession);
+        connect(sessionSummaryDialog, &SessionSummaryDialog::backToSystemRequested, this, &System::endSessionBackToSystem);
+    }
+    QString html = R"(
+                        <table width="100%" cellspacing="0" cellpadding="4">
+                    )";
+
+    QTime durationQTime;
+
+    qint32 SumPrice = 0;
+    qint32 SumProducts = 0;
+    qint32 SumTimeCosts = 0;
+
+    html += "<tr> <td align=\"center\"> </td> </tr>";
+
+    for(const auto& [name, item] : ItemsList){
+
+        SumProducts += item.getProduct().getPrice();
+
+        html += "<tr>";
+
+        html += "<td align=\"center\">" +
+                name +
+                "</td>";
+
+        html += "<td align=\"center\">x" +
+                QString::number(item.getQuantity()) +
+                "</td>";
+
+        html += "<td align=\"center\">"+
+                QLocale(QLocale::English).toString(
+                    item.getProduct().getPrice()
+                    ) + " تومان" +
+                "</td>";
+
+        html += "</tr>";
+    }
+
+    onPlayerCountChanged(playerCount);
+
+    for(const auto& [pCount, duration] : CostSegment){
+        durationQTime = durationQTime.fromMSecsSinceStartOfDay(duration);
+        qint32 totalPrice = priceManager->getRule(platform, pCount).calculateMoneyFromTime(durationQTime);
+
+        SumTimeCosts += totalPrice;
+        html += "<tr>";
+
+        html += "<td align=\"center\">" +
+                durationQTime.toString("hh:mm:ss") +
+                "</td>";
+
+        html += "<td align=\"center\">" +
+                QString::number(pCount) + " نفره" +
+                "</td>";
+
+        html += "<td align=\"center\">" +
+                QLocale(QLocale::English).toString(
+                    totalPrice) + " تومان" +
+                "</td>";
+
+        html += "</tr>";
+    }
+
+    SumPrice += SumProducts + SumTimeCosts;
+
+    html += "<tr> <td> <hr> </td> <td> <hr> </td> <td> <hr> </td> </tr>";
+
+    html += "<tr>";
+
+    html += "<td align=\"center\">" +
+            QString(": مجموع هزینه بازی") +
+            "</td>";
+
+    html += "<td> </td>";
+
+    html += "<td align=\"center\">" +
+            QLocale(QLocale::English).toString(SumTimeCosts) + " تومان" +
+            "</td>";
+
+    html += "</tr>";
+
+    html += "<tr>";
+
+    html += "<td align=\"center\">" +
+            QString(": مجموع هزینه کالا ها") +
+            "</td>";
+
+    html += "<td> </td>";
+
+    html += "<td align=\"center\">" +
+            QLocale(QLocale::English).toString(SumProducts) + " تومان" +
+            "</td>";
+
+    html += "</tr>";
+
+    html += "<tr> <td> <hr> </td> <td> <hr> </td> <td> <hr> </td> </tr>";
+
+    html += "<tr>";
+
+    html += "<td align=\"center\">" +
+            QString(": مبلغ قابل پرداخت") +
+            "</td>";
+
+    html += "<td> </td>";
+
+    html += "<td align=\"center\">" +
+            QLocale(QLocale::English).toString(SumPrice) + " تومان" +
+            "</td>";
+
+    html += "</tr>";
+
+    sessionSummaryDialog->setTextBrowser(html);
+}
+
+void System::onEndSession(){
+
     if (timer.getIsRunning())
         timer.stop();
 
+    delete sessionSummaryDialog;
+    sessionSummaryDialog = nullptr;
     zeroTimer();
     ui->label_price->setText("۰ تومان");
     ui->textBrowser_price->setHtml("<p align='center'>محصولات افزوده‌شده در این بخش نمایش داده می‌شوند</p>");
@@ -133,6 +254,7 @@ void System::on_pushButton_end_session_clicked()
     ui->stackedWidget->setCurrentWidget(ui->page);
     setSessionActive(false);
 }
+
 
 void System::startFreeTime(){
 
@@ -203,7 +325,6 @@ void System::addProductItem(ProductItem item){
 
 void System::updateProductBrowser(){
 
-    ui->textBrowser_price->clear();
     QString html = R"(
                         <table width="100%" cellspacing="0" cellpadding="4">
                     )";
@@ -225,7 +346,7 @@ void System::updateProductBrowser(){
         html += "<td align=\"center\">" +
                 QLocale(QLocale::English).toString(
                     item.getProduct().getPrice()
-                    ) +
+                    ) + " تومن" +
                 "</td>";
 
         html += "</tr>";
@@ -241,13 +362,13 @@ void System::updateProductBrowser(){
                 durationQTime.toString("hh:mm:ss") +
                 "</td>";
 
-        html += "<td align=\"center\">x" +
-                QString::number(pCount) +
+        html += "<td align=\"center\">" +
+                QString::number(pCount) + " نفره"
                 "</td>";
 
         html += "<td align=\"center\">" +
                 QLocale(QLocale::English).toString(
-                    totalPrice) +
+                    totalPrice) + " تومن" +
                 "</td>";
 
         html += "</tr>";
@@ -314,3 +435,8 @@ void System::onPlayerCountChanged(int pCount){
 }
 
 
+void System::endSessionBackToSystem(){
+    sessionSummaryDialog->close();
+    delete sessionSummaryDialog;
+    sessionSummaryDialog = nullptr;
+}

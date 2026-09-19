@@ -47,6 +47,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         UI/extendtimedialog.h UI/extendtimedialog.cpp UI/extendtimedialog.ui
         UI/descriptiondialog.h UI/descriptiondialog.cpp UI/descriptiondialog.ui
         UI/changeplayercountdialog.h UI/changeplayercountdialog.cpp UI/changeplayercountdialog.ui
+        UI/sessionsummarydialog.h UI/sessionsummarydialog.cpp UI/sessionsummarydialog.ui
     )
 
 else()
