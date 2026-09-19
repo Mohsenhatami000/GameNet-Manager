@@ -2,7 +2,7 @@
 #define PRODUCTSDIALOG_H
 
 #include <QDialog>
-#include "../Logic/productcatalog.h"
+#include "Logic/Product/productcatalog.h"
 
 namespace Ui {
 class ProductsDialog;

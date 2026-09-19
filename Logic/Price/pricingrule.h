@@ -1,7 +1,7 @@
 #ifndef PRICINGRULE_H
 #define PRICINGRULE_H
 
-#include "Platform.h"
+#include "../Platform/Platform.h"
 #include <QTime>
 
 class PricingRule

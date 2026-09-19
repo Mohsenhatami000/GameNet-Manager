@@ -3,9 +3,8 @@
 
 #include <QMainWindow>
 #include <QHBoxLayout>
-#include <vector>
-#include "../Logic/pricingmanager.h"
-#include "../Logic/productcatalog.h"
+#include "Logic/Price/pricingmanager.h"
+#include "Logic/Product/productcatalog.h"
 
 
 QT_BEGIN_NAMESPACE

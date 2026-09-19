@@ -3,7 +3,7 @@
 #include <QTime>
 #include <QLocale>
 #include <QStyle>
-#include "../Logic/productitem.h"
+#include "Logic/Product/productitem.h"
 
 System::System(Platform platform, std::unordered_map<Platform, QString> &PlatformToQString, QWidget *parent)
     : QWidget(parent)

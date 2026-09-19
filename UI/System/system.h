@@ -6,14 +6,14 @@
 #include <QTime>
 #include <QDeadlineTimer>
 #include <QElapsedTimer>
-#include "startsessiondialog.h"
-#include "../Logic/timer.h"
-#include "../Logic/pricingmanager.h"
-#include "../Logic/productcatalog.h"
-#include "../Logic/productitem.h"
-#include "menudialog.h"
-#include "productsdialog.h"
-#include "sessionsummarydialog.h"
+#include "UI/StartSession/startsessiondialog.h"
+#include "Logic/Timer/timer.h"
+#include "Logic/Price/pricingmanager.h"
+#include "Logic/Product/productcatalog.h"
+#include "Logic/Product/productitem.h"
+#include "UI/Menu/menudialog.h"
+#include "UI/Products/productsdialog.h"
+#include "UI/SessionSummary/sessionsummarydialog.h"
 
 namespace Ui {
 class System;

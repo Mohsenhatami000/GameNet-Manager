@@ -3,7 +3,7 @@
 
 #include <QDialog>
 #include <QTime>
-#include "../Logic/pricingmanager.h"
+#include "Logic/Price/pricingmanager.h"
 
 namespace Ui {
 class StartSessionDialog;

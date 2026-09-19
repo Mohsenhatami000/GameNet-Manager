@@ -15,20 +15,20 @@ find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
 set(PROJECT_SOURCES
     main.cpp
 
-    UI/mainwindow.cpp
-    UI/mainwindow.h
-    UI/mainwindow.ui
+    UI/MainWindow/mainwindow.cpp
+    UI/MainWindow/mainwindow.h
+    UI/MainWindow/mainwindow.ui
 
-    UI/system.cpp
-    UI/system.h
-    UI/system.ui
+    UI/System/system.cpp
+    UI/System/system.h
+    UI/System/system.ui
 
-    UI/startsessiondialog.cpp
-    UI/startsessiondialog.h
-    UI/startsessiondialog.ui
+    UI/StartSession/startsessiondialog.cpp
+    UI/StartSession/startsessiondialog.h
+    UI/StartSession/startsessiondialog.ui
 
-    Logic/timer.cpp
-    Logic/timer.h
+    Logic/Timer/timer.cpp
+    Logic/Timer/timer.h
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
@@ -36,18 +36,18 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(GameNet
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
-        Logic/pricingrule.h Logic/pricingrule.cpp
-        Logic/Platform.h
-        Logic/pricingmanager.h Logic/pricingmanager.cpp
-        Logic/product.h Logic/product.cpp
-        Logic/productcatalog.h Logic/productcatalog.cpp
-        Logic/productitem.h Logic/productitem.cpp
-        UI/productsdialog.h UI/productsdialog.cpp UI/productsdialog.ui
-        UI/menudialog.h UI/menudialog.cpp UI/menudialog.ui
-        UI/extendtimedialog.h UI/extendtimedialog.cpp UI/extendtimedialog.ui
-        UI/descriptiondialog.h UI/descriptiondialog.cpp UI/descriptiondialog.ui
-        UI/changeplayercountdialog.h UI/changeplayercountdialog.cpp UI/changeplayercountdialog.ui
-        UI/sessionsummarydialog.h UI/sessionsummarydialog.cpp UI/sessionsummarydialog.ui
+        Logic/Price/pricingrule.h Logic/Price/pricingrule.cpp
+        Logic/Platform/Platform.h
+        Logic/Price/pricingmanager.h Logic/Price/pricingmanager.cpp
+        Logic/Product/product.h Logic/Product/product.cpp
+        Logic/Product/productcatalog.h Logic/Product/productcatalog.cpp
+        Logic/Product/productitem.h Logic/Product/productitem.cpp
+        UI/Products/productsdialog.h UI/Products/productsdialog.cpp UI/Products/productsdialog.ui
+        UI/Menu/menudialog.h UI/Menu/menudialog.cpp UI/Menu/menudialog.ui
+        UI/ExtendTime/extendtimedialog.h UI/ExtendTime/extendtimedialog.cpp UI/ExtendTime/extendtimedialog.ui
+        UI/Description/descriptiondialog.h UI/Description/descriptiondialog.cpp UI/Description/descriptiondialog.ui
+        UI/ChangePlayerCount/changeplayercountdialog.h UI/ChangePlayerCount/changeplayercountdialog.cpp UI/ChangePlayerCount/changeplayercountdialog.ui
+        UI/SessionSummary/sessionsummarydialog.h UI/SessionSummary/sessionsummarydialog.cpp UI/SessionSummary/sessionsummarydialog.ui
     )
 
 else()
@@ -70,6 +70,9 @@ endif()
 
 target_link_libraries(GameNet PRIVATE
     Qt${QT_VERSION_MAJOR}::Widgets
+)
+target_include_directories(GameNet PRIVATE
+    ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
 if(${QT_VERSION} VERSION_LESS 6.1.0)

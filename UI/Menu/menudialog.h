@@ -2,9 +2,9 @@
 #define MENUDIALOG_H
 
 #include <QDialog>
-#include "extendtimedialog.h"
-#include "descriptiondialog.h"
-#include "changeplayercountdialog.h"
+#include "../ExtendTime/extendtimedialog.h"
+#include "../Description/descriptiondialog.h"
+#include "../ChangePlayerCount/changeplayercountdialog.h"
 
 namespace Ui {
 class MenuDialog;
