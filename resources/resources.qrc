@@ -1,5 +1,7 @@
 <RCC>
     <qresource prefix="/">
         <file>sounds/alarm.mp3</file>
+        <file>icons/icon.png</file>
     </qresource>
 </RCC>
+
