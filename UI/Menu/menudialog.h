@@ -26,10 +26,10 @@ signals:
     void cancelRequested();
     void extendTimeRequested(QTime time);
     void playerCountChanged(int pCount);
+    void backToTimeExpiredRequested();
 
 private slots:
     void on_pushButton_back_clicked();
-    void on_pushButton_extend_time_clicked();
     void extendBackToMenu();
     void onExtendTime(QTime time);
     void on_pushButton_description_clicked();
@@ -37,6 +37,9 @@ private slots:
     void on_pushButton_change_player_count_clicked();
     void changePlayerBackToMain();
     void onPlayerCount(int pCount);
+    void onBackToTimeExpired();
+public slots:
+    void on_pushButton_extend_time_clicked(Prev prev = Prev::Menu);
 
 private:
     Ui::MenuDialog *ui;

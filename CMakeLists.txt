@@ -10,7 +10,7 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets)
-find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
+find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets Multimedia)
 
 set(PROJECT_SOURCES
     main.cpp
@@ -48,6 +48,8 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         UI/Description/descriptiondialog.h UI/Description/descriptiondialog.cpp UI/Description/descriptiondialog.ui
         UI/ChangePlayerCount/changeplayercountdialog.h UI/ChangePlayerCount/changeplayercountdialog.cpp UI/ChangePlayerCount/changeplayercountdialog.ui
         UI/SessionSummary/sessionsummarydialog.h UI/SessionSummary/sessionsummarydialog.cpp UI/SessionSummary/sessionsummarydialog.ui
+        resources/resources.qrc
+        UI/TimeExpired/timeexpireddialog.h UI/TimeExpired/timeexpireddialog.cpp UI/TimeExpired/timeexpireddialog.ui
     )
 
 else()
@@ -70,6 +72,7 @@ endif()
 
 target_link_libraries(GameNet PRIVATE
     Qt${QT_VERSION_MAJOR}::Widgets
+    Qt6::Multimedia
 )
 target_include_directories(GameNet PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}

@@ -29,12 +29,32 @@ void MenuDialog::enableExtendTime(){
 void MenuDialog::disableExtendTime(){
     ui->pushButton_extend_time->setDisabled(true);
 }
-void MenuDialog::on_pushButton_extend_time_clicked()
+void MenuDialog::on_pushButton_extend_time_clicked(Prev prev)
 {
-    extendTimeDialog = new ExtendTimeDialog(this);
+    extendTimeDialog = new ExtendTimeDialog(prev, this);
     extendTimeDialog->show();
-    connect(extendTimeDialog, &ExtendTimeDialog::backRequested, this, &MenuDialog::extendBackToMenu);
-    connect(extendTimeDialog, &ExtendTimeDialog::extendTimeRequested, this, &MenuDialog::onExtendTime);
+
+    connect(extendTimeDialog,
+            &ExtendTimeDialog::backToMenuRequested,
+            this,
+            &MenuDialog::extendBackToMenu);
+
+    connect(extendTimeDialog,
+            &ExtendTimeDialog::extendTimeRequested,
+            this,
+            &MenuDialog::onExtendTime);
+
+    connect(extendTimeDialog,
+            &ExtendTimeDialog::backToTimeExpiredRequested,
+            this,
+            &MenuDialog::onBackToTimeExpired);
+}
+
+void MenuDialog::onBackToTimeExpired(){
+    extendTimeDialog->close();
+    delete extendTimeDialog;
+    extendTimeDialog = nullptr;
+    emit backToTimeExpiredRequested();
 }
 
 void MenuDialog::extendBackToMenu(){

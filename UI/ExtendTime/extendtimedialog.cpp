@@ -1,9 +1,10 @@
 #include "extendtimedialog.h"
 #include "UI/ui_extendtimedialog.h"
 
-ExtendTimeDialog::ExtendTimeDialog(QWidget *parent)
+ExtendTimeDialog::ExtendTimeDialog(Prev prev, QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::ExtendTimeDialog)
+    , prevPage(prev)
 {
     ui->setupUi(this);
     setWindowTitle("افزایش زمان جلسه");
@@ -17,7 +18,11 @@ ExtendTimeDialog::~ExtendTimeDialog()
 
 void ExtendTimeDialog::on_pushButton_back_clicked()
 {
-    emit backRequested();
+    if(prevPage == Prev::Menu){
+        emit backToMenuRequested();
+        return;
+    }
+    emit backToTimeExpiredRequested();
 }
 
 

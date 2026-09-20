@@ -36,6 +36,11 @@ void Timer::start(){
 }
 
 void Timer::stop(){
+
+    if(!is_running){
+        return;
+    }
+
     timer->stop();
     is_running = false;
 
@@ -50,6 +55,11 @@ void Timer::stop(){
 }
 
 void Timer::resume(){
+
+    if(is_running){
+        return;
+    }
+
     timer->start(1000);
     is_running = true;
     if(mode == TimerMode::countDown){

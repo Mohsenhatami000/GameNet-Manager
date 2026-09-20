@@ -1,9 +1,12 @@
 #include "sessionsummarydialog.h"
 #include "UI/ui_sessionsummarydialog.h"
 
-SessionSummaryDialog::SessionSummaryDialog(QWidget *parent)
+
+
+SessionSummaryDialog::SessionSummaryDialog(PrevPage prevPage, QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::SessionSummaryDialog)
+    , prevPage(prevPage)
 {
     ui->setupUi(this);
 }
@@ -25,6 +28,10 @@ void SessionSummaryDialog::setTextBrowser(const QString html){
 
 void SessionSummaryDialog::on_pushButton_back_clicked()
 {
-    emit backToSystemRequested();
+    if(prevPage == PrevPage::System){
+        emit backToSystemRequested();
+        return;
+    }
+    emit backToTimeExpiredRequested();
 }
 

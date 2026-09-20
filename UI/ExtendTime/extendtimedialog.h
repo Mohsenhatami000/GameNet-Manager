@@ -4,6 +4,11 @@
 #include <QDialog>
 #include <QTime>
 
+enum class Prev{
+    Menu,
+    TimeExpired
+};
+
 namespace Ui {
 class ExtendTimeDialog;
 }
@@ -13,11 +18,12 @@ class ExtendTimeDialog : public QDialog
     Q_OBJECT
 
 public:
-    explicit ExtendTimeDialog(QWidget *parent = nullptr);
+    explicit ExtendTimeDialog(Prev prev = Prev::Menu, QWidget *parent = nullptr);
     ~ExtendTimeDialog();
 
 signals:
-    void backRequested();
+    void backToMenuRequested();
+    void backToTimeExpiredRequested();
     void extendTimeRequested(QTime time);
 
 private slots:
@@ -36,6 +42,8 @@ private slots:
 private:
     Ui::ExtendTimeDialog *ui;
     QTime time;
+    Prev prevPage;
+
 };
 
 #endif // EXTENDTIMEDIALOG_H
