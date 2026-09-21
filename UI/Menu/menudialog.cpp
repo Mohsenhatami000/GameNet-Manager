@@ -29,7 +29,7 @@ void MenuDialog::enableExtendTime(){
 void MenuDialog::disableExtendTime(){
     ui->pushButton_extend_time->setDisabled(true);
 }
-void MenuDialog::on_pushButton_extend_time_clicked(Prev prev)
+void MenuDialog::onPushButtonExtendTimeClicked(Prev prev)
 {
     extendTimeDialog = new ExtendTimeDialog(prev, this);
     extendTimeDialog->show();

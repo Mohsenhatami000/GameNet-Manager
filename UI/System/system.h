@@ -56,7 +56,7 @@ private slots:
     void startFreeTime();
 
     void on_pushButton_stop_resume_clicked();
-    void on_pushButton_end_session_clicked(
+    void onPushButtonEndSessionClicked(
         PrevPage prev = PrevPage::System
         );
 

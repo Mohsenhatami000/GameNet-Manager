@@ -50,6 +50,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         UI/SessionSummary/sessionsummarydialog.h UI/SessionSummary/sessionsummarydialog.cpp UI/SessionSummary/sessionsummarydialog.ui
         resources/resources.qrc
         UI/TimeExpired/timeexpireddialog.h UI/TimeExpired/timeexpireddialog.cpp UI/TimeExpired/timeexpireddialog.ui
+        app.rc
     )
 
 else()
