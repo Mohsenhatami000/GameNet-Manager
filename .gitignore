@@ -4,6 +4,7 @@ build/
 build-*/
 cmake-build-*/
 release/
+installer/output/
 
 
 # Qt Creator
