@@ -1,54 +1,47 @@
 # GameNet Manager
 
-A desktop application for managing gaming center sessions, pricing, products, and customer usage.
+یک نرم‌افزار دسکتاپ برای مدیریت جلسات بازی، محاسبه هزینه، مدیریت محصولات و کنترل سیستم‌های یک گیم‌نت.
 
-`GameNet Manager` is designed to simplify the daily management of gaming systems such as `PC`, `PS4`, `PS5`, `VR`, and `Steering Wheel`.
-
-## Screenshots
-
-### Main Dashboard
-
-<!-- Add screenshot here -->
-
-![Main Dashboard](docs/screenshots/main-dashboard.png)
-
-### Active Session
-
-<!-- Add screenshot here -->
-
-![Active Session](docs/screenshots/active-session.png)
-
-### Session Summary
-
-<!-- Add screenshot here -->
-
-![Session Summary](docs/screenshots/session-summary.png)
-
-### Start Session
-
-<!-- Add screenshot here -->
-
-![Start Session](docs/screenshots/start-session.png)
-
-> Replace the image paths above with your actual screenshots.
+ این برنامه با هدف ساده‌تر کردن مدیریت روزمره‌ی گیم‌نت طراحی شده و امکان مدیریت سیستم‌های مختلف، زمان بازی، هزینه‌ی جلسات و محصولات مصرفی را فراهم می‌کند.
 
 ---
 
-## Features
+## 📸 تصاویر برنامه
 
-* Manage different gaming platforms
-* Start and end gaming sessions
-* Pause and resume sessions
-* Extend session time
-* Track elapsed time
-* Calculate session costs based on platform and player count
-* Change player count during a session
-* Add products and quantities to a session
-* Add notes to sessions
-* View a detailed session summary
-* Support for multiple gaming platforms
+### صفحه اصلی
 
-### Supported Platforms
+![صفحه اصلی](docs/screenshots/main-dashboard.png)
+
+### جلسه فعال
+
+![جلسه فعال](docs/screenshots/active-session.png)
+
+### شروع جلسه
+
+![شروع جلسه](docs/screenshots/start-session.png)
+
+### خلاصه جلسه
+
+![خلاصه جلسه](docs/screenshots/session-summary.png)
+
+---
+
+## ✨ امکانات
+
+* مدیریت سیستم‌های مختلف گیم‌نت
+* شروع و پایان جلسات
+* توقف و ادامه‌ی جلسه
+* افزایش زمان جلسه
+* نمایش زمان سپری‌شده
+* محاسبه هزینه بر اساس نوع سیستم و تعداد بازیکنان
+* تغییر تعداد بازیکنان در طول جلسه
+* افزودن محصولات به جلسه
+* تعیین تعداد محصولات
+* ثبت توضیحات برای جلسه
+* نمایش خلاصه‌ی کامل جلسه
+* پشتیبانی از انواع مختلف سیستم‌های بازی
+
+### پلتفرم‌های پشتیبانی‌شده
 
 * `PC`
 * `PS4`
@@ -58,89 +51,100 @@ A desktop application for managing gaming center sessions, pricing, products, an
 
 ---
 
-## Tech Stack
+## 🛠 فناوری‌های استفاده‌شده
+
+این پروژه با استفاده از فناوری‌های زیر توسعه داده شده است:
 
 * `C++`
 * `Qt 6`
+* `Qt Widgets`
 * `CMake`
 * `MinGW`
-* `Qt Widgets`
 
 ---
 
-## Installation
+## 📥 نصب
 
-Download the latest installer from the `Releases` section.
+برای نصب برنامه، به بخش `Releases` در مخزن پروژه مراجعه کرده و آخرین نسخه‌ی `Setup.exe` را دانلود کنید.
 
-Run the installer and follow the setup instructions.
+سپس فایل نصب را اجرا کرده و مراحل نصب را دنبال کنید.
 
-No additional database setup is required.
+برای اجرای برنامه به نصب یا پیکربندی جداگانه‌ی `database` نیاز نیست.
 
 ---
 
-## Building from Source
+## 🔨 ساخت از سورس
 
-### Requirements
+### پیش‌نیازها
+
+برای ساخت پروژه از سورس به موارد زیر نیاز دارید:
 
 * `Qt 6`
 * `CMake`
-* `MinGW` or another supported `C++` compiler
+* یک کامپایلر سازگار با `C++`
+* `MinGW` یا کامپایلر سازگار دیگر
 
-### Clone the Repository
+### دریافت پروژه
 
 ```bash
 git clone https://github.com/Mohsenhatami000/GameNet-Manager.git
 cd GameNet-Manager
 ```
 
-### Build
+### ساخت پروژه
 
 ```bash
 cmake -S . -B build
 cmake --build build --config Release
 ```
 
-The generated executable can then be found in the corresponding build directory.
+پس از ساخت موفق، فایل اجرایی در پوشه‌ی مربوط به خروجی `build` قرار خواهد گرفت.
 
 ---
 
-## Project Structure
+## 📁 ساختار کلی پروژه
 
-The project is organized into separate components for the user interface and application logic.
+ساختار پروژه به‌صورت کلی به شکل زیر است:
 
 ```text
 GameNet-Manager/
-├── app/
-├── Logic/
-├── UI/
-├── resources/
+├── README.md
 ├── CMakeLists.txt
-└── README.md
+├── UI/
+├── Logic/
+├── resources/
+├── docs/
+│   └── screenshots/
+└── ...
 ```
 
----
-
-## Roadmap
-
-Possible improvements for future versions include:
-
-* More flexible application settings
-* Improved customization
-* Additional reporting features
-* Improved UI and user experience
-* Persistent data storage
-* Additional management features
+منطق برنامه و رابط کاربری در بخش‌های جداگانه قرار گرفته‌اند تا توسعه و نگهداری پروژه ساده‌تر باشد.
 
 ---
 
-## Version
+## 🗺 برنامه‌ی توسعه
 
-Current version: `v1.0.0`
+برخی از قابلیت‌هایی که ممکن است در نسخه‌های آینده به پروژه اضافه یا بهبود داده شوند:
 
-This release represents the first `MVP` version of `GameNet Manager`.
+* تنظیمات قابل شخصی‌سازی بیشتر
+* بهبود رابط کاربری و تجربه‌ی کاربری
+* امکانات بیشتر برای گزارش‌گیری
+* ذخیره‌سازی دائمی اطلاعات
+* امکانات مدیریتی بیشتر
+* انعطاف‌پذیری بیشتر در تنظیمات قیمت‌گذاری
 
 ---
 
-## License
+## 📌 وضعیت پروژه
 
-This project is currently released for demonstration and portfolio purposes.
+نسخه‌ی فعلی:
+
+`v1.0.0`
+
+این نسخه، اولین نسخه‌ی `MVP` پروژه است و قابلیت‌های اصلی موردنیاز برای مدیریت جلسات گیم‌نت را ارائه می‌دهد.
+
+---
+
+## 📄 مجوز
+
+این پروژه در حال حاضر با هدف نمایش پروژه و استفاده‌ی شخصی و آموزشی منتشر شده است.
