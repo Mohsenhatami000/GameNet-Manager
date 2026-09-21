@@ -39,7 +39,7 @@ private slots:
     void onPlayerCount(int pCount);
     void onBackToTimeExpired();
 public slots:
-    void onPushButtonExtendTimeClicked(Prev prev = Prev::Menu);
+    void on_pushButton_extend_time_clicked(Prev prev = Prev::Menu);
 
 private:
     Ui::MenuDialog *ui;

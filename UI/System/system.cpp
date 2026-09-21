@@ -290,7 +290,7 @@ void System::sessionSummaryBackToExpiredTime()
 }
 
 
-void System::onPushButtonEndSessionClicked(PrevPage prev)
+void System::on_pushButton_end_session_clicked(PrevPage prev)
 {
     finishCurrentCostSegment();
 
@@ -511,7 +511,7 @@ void System::timeExpiredExtendTime(){
 
     mediaPlayer->stop();
     timeExpired->close();
-    menuDialog->onPushButtonExtendTimeClicked(Prev::TimeExpired);
+    menuDialog->on_pushButton_extend_time_clicked(Prev::TimeExpired);
 }
 
 void System::zeroTimer()
@@ -569,7 +569,7 @@ void System::timeExpiredEndSession()
     mediaPlayer->stop();
     timeExpired->close();
 
-    onPushButtonEndSessionClicked(
+    on_pushButton_end_session_clicked(
         PrevPage::TimeExpired
         );
 }
